@@ -184,11 +184,11 @@ max_Pressure = st.number_input("Max Pressure", value=17, min_value=0)
 
 MatCode= st.selectbox("**SELECT RANGE OF MATERIAL CODE**", options=Data.columns, index=Data.columns.get_loc("Material_code"))
 min_MatCode = st.number_input("Min Material code", value=0, min_value=0)
-max_MatCode = st.number_input("Max Material code", value=0, min_value=0)
+max_MatCode = st.number_input("Max Material code", value=9, min_value=0)
 
 NozzleCode= st.selectbox("**SELECT RANGE OF NOZZLE CODE**", options=Data.columns, index=Data.columns.get_loc('Nozzle_Code'))
 min_NozzleCode = st.number_input("Min Nozzle code", value=0, min_value=0)
-max_NozzleCode = st.number_input("Max Nozzle code", value=0, min_value=0)
+max_NozzleCode = st.number_input("Max Nozzle code", value=9, min_value=0)
 
 #st.title("Cathegorical parameters")
 st.header('Selection of cathegorical parameters')
