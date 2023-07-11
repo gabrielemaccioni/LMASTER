@@ -123,11 +123,10 @@ NozzleList=NozzleList.set_index('NozzleCode')
 #INIZIO CODICE VISUALIZZATO
 
 # PARAGRAPH 1: Header
-st.title("1) Data exploration laser parameters")
-st.subheader("1.1) Data derives from original TOB file. They were cleaned in order to obtaine a simpler format")
+st.title("TOBs cleaned with only fundamental features")
 #st.subheader("CLEANED FILE")
 st.write(Data)
-st.subheader("1.2) General info of every features")
+st.title("General info of every features")
 DF=Data.copy()
 
 
@@ -151,7 +150,7 @@ st.write(get_inform(DF))
 # CORRELATION AND SCATTERPLOT ON RANGED AND SINGLE PARAMETERS
 
 
-st.title("2) Correlation and scatterplot multiselection")
+st.title("Correlation and scatterplot multiselection")
 st.header('Selection of axis')
 corr_x3 = st.selectbox("**SELECT X AXIS**", options=Data.columns, index=Data.columns.get_loc("Thickness[mm]"))
 corr_y3 = st.selectbox("**SELECT Y AXIS**", options=Data.columns, index=Data.columns.get_loc("Speed[mm/min]"))
