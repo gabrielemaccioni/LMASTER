@@ -22,7 +22,7 @@ import streamlit as st
 from io import StringIO 
 
 #upload single file and display it as a dataframe
-st.title("Selection of initial file")
+st.title("Table of all TOBs")
 Data = pd.read_excel("ParametriLaserBertaldi.xlsx")
 Data
 
