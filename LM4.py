@@ -21,8 +21,16 @@ import numpy as np
 import streamlit as st
 from io import StringIO 
 
+
+st.title("DESCRIPTION AND AIM OF THIS WEBAPP")
+st.markdown('**The aim of this app is to graphs trend of every features**')
+st.markdown( '- **In the section I)** TOBs parameters are listed')
+st.markdown( '- **In the section II)** a general description of every features is given')
+st.markdown( '- **In the section III)** is shown as create graphs of every features')
+st.markdown( '- **In the section IV)** correlation and heatmap among features is analyzed ')
+st.markdown( '- **In the section V)** a possible previsional model for unknown parameters is given')
 #upload single file and display it as a dataframe
-st.title("Table of all TOBs")
+st.title("I) Table of all TOBs")
 Data = pd.read_excel("ParametriLaserBertaldi.xlsx")
 Data
 
@@ -123,10 +131,9 @@ NozzleList=NozzleList.set_index('NozzleCode')
 #INIZIO CODICE VISUALIZZATO
 
 # PARAGRAPH 1: Header
-st.title("TOBs cleaned with only fundamental features")
-#st.subheader("CLEANED FILE")
+st.subheader("TOBs cleaned with only fundamental features")
 st.write(Data)
-st.title("General info of every features")
+st.title("II) General info of every features")
 DF=Data.copy()
 
 
@@ -150,10 +157,11 @@ st.write(get_inform(DF))
 # CORRELATION AND SCATTERPLOT ON RANGED AND SINGLE PARAMETERS
 
 
-st.title("Correlation and scatterplot multiselection")
+st.title("III) Scatterplot with multiselection")
+st.subheader("Machine parameters can be selected in two modes: RANGE (in the range parameters) and/or SINGLE (in the cathegorical parameters)")
 st.header('Selection of axis')
 
-st.write(Data)
+#st.write(Data)
 corr_x3 = st.selectbox("**SELECT X AXIS**", options=Data.columns, index=Data.columns.get_loc("Thickness[mm]"))
 corr_y3 = st.selectbox("**SELECT Y AXIS**", options=Data.columns, index=Data.columns.get_loc("Speed[mm/min]"))
 
@@ -161,16 +169,16 @@ corr_y3 = st.selectbox("**SELECT Y AXIS**", options=Data.columns, index=Data.col
 
 
 #st.title("Ranged parameters")
-st.header("Two possible selection of machine parameters: RANGE (in the range parameters) or SINGLE (in the cathegorical parameters)")
-st.header('Selection of range parameters')
+
+st.subheader('SELECTION OF RANGE PARAMETERS')
 st.info('To switch off this section put min and max limits at 0!!', icon="ℹ️")
 Thickness= st.selectbox("**SELECT RANGE OF THICKNESS**",options=Data.columns, index=Data.columns.get_loc("Thickness[mm]"))
 min_Thickness = st.number_input("Min Thickness[mm]", value=0, min_value=0)
 max_Thickness = st.number_input("Max Thickness[mm]", value=30, min_value=0)
 
 LaserPower= st.selectbox("**SELECT RANGE OF Laser Power**",options=Data.columns, index=Data.columns.get_loc("LaserPower[W]"))
-min_LaserPower = st.number_input("Min LaserPower[W]", value=0, min_value=0)
-max_LaserPower = st.number_input("Max LaserPower[W]", value=30000, min_value=0)
+min_LaserPower = st.number_input("Min LaserPower[W]", value=10000, min_value=0)
+max_LaserPower = st.number_input("Max LaserPower[W]", value=10000, min_value=0)
 
 
 Speed= st.selectbox("**SELECT RANGE OF SPEED**", options=Data.columns, index=Data.columns.get_loc("Speed[mm/min]"))
@@ -185,15 +193,15 @@ max_Pressure = st.number_input("Max Pressure", value=17, min_value=0)
 
 
 MatCode= st.selectbox("**SELECT RANGE OF MATERIAL CODE**", options=Data.columns, index=Data.columns.get_loc("Material_code"))
-min_MatCode = st.number_input("Min Material code", value=0, min_value=0)
-max_MatCode = st.number_input("Max Material code", value=9, min_value=0)
+min_MatCode = st.number_input("Min Material code", value=5, min_value=0)
+max_MatCode = st.number_input("Max Material code", value=6, min_value=0)
 
 NozzleCode= st.selectbox("**SELECT RANGE OF NOZZLE CODE**", options=Data.columns, index=Data.columns.get_loc('Nozzle_Code'))
 min_NozzleCode = st.number_input("Min Nozzle code", value=0, min_value=0)
 max_NozzleCode = st.number_input("Max Nozzle code", value=9, min_value=0)
 
 #st.title("Cathegorical parameters")
-st.header('Selection of cathegorical parameters')
+st.subheader('SELECTION OF CATHEGORICAL PARAMETERS')
 st.info('To filter only on cathegorical parameters put previous *range parameters* at 0!!', icon="ℹ️")
 F8= st.selectbox("**LASER POWER**", options=Data['LaserPower[W]'].unique(), index=Data.columns.get_loc("LaserPower[W]"))
 F9= st.selectbox("**MATERIAL**", options=Data['Material'].unique(), index=Data.columns.get_loc("Material"))
@@ -207,21 +215,66 @@ Nozzle= st.selectbox("**Nozzle**", options=Data['Nozzle'].unique(), index=Data.c
 #FGas= st.selectbox("**Gas**", options=df2['Gas'].unique(), index=df2.columns.get_loc('Gas'))
 
 
-corr_col3 = st.radio("**SELECT COLOR VARIABLE**", options=['Nozzle','Pressure[Bar]', 'LaserPower','Gas', 'Focal[mm]', 'Material'], index=1)
+corr_col3 = st.radio("**SELECT COLOR VARIABLE**", options=['Material','Nozzle','Pressure[Bar]', 'LaserPower','Gas', 'Focal[mm]'], index=1)
 
 tmp_df3 = Data[(Data['LaserPower[W]']==F8)|((Data['LaserPower[W]'] >= min_LaserPower)&(Data['LaserPower[W]'] <= max_LaserPower))]                      [(Data['Nozzle']==Nozzle)|((Data['Nozzle_Code'] >= min_NozzleCode)&(Data['Nozzle_Code'] <= max_NozzleCode))]        [(Data[Thickness] == F11)|((Data[Thickness] >= min_Thickness)&(Data[Thickness] <= max_Thickness))][(Data[Pressure] >= min_Pressure)&(Data[Pressure] <= max_Pressure)&(Data[Speed] >= min_Speed)&(Data[Speed] <= max_Speed)]    [(Data['Material']==F9)|((Data[MatCode] >= min_MatCode)&(Data[MatCode] <= max_MatCode))]
 
 
 fig = px.scatter(tmp_df3, x=corr_x3, y=corr_y3, template="plotly_white", render_mode='webgl',
                  color=corr_col3, hover_data=['Nozzle','Pressure[Bar]', 'LaserPower', 'Material_code', 'Gas', 'Focal[mm]', 'Material'], color_continuous_scale=px.colors.sequential.OrRd,
-                 title='SCATTERPLOT WITH MULTISELECTION')
+                 title='')
 fig.update_traces(mode="markers", marker={"line": {"width": 0.4, "color": "slategrey"}})
-st.header("Scatterplot of filtered parameters")
+st.header("--> Scatterplot of filtered parameters")
 st.write(fig)
 
 #df3 = pd.read_csv("df3.csv", index_col=0).reset_index(drop=True)
+
+st.subheader("Materials and Nozzle list")
 st.write(MaterialList)
 st.write(NozzleList)
+
+
+
+
+
+# correlation heatmap
+st.title ("IV) Correlation and heatmap")
+st.subheader('Select parameter to include on heatmap')
+hmap_params = st.multiselect("Features", options=list(Data.columns), default=[p for p in Data.columns if "fg" in p])
+hmap_fig = px.imshow(Data[hmap_params].corr(), color_continuous_scale=('yellow', 'red'), facet_col_spacing=0.99, facet_row_spacing=0.5, title='CORRELATIONE AMONG LASER PARAMETERS')
+st.write(hmap_fig)
+
+
+
+#PARAGRAPH: ESTIMATION OF NEW PARAMETERS
+EstimatedParameters= pd.read_excel(r'C:\Users\gabriele.maccioni\OneDrive - Prima Industrie\Desktop\Documents\Data analysis 2023\WebAPP\Estimated parameters_ok.xlsx')
+st.title("V) Previsional model for unknown parameters (draft version)")
+EstimatedParameters = EstimatedParameters.reset_index(drop=True)
+corr_xEP = st.selectbox("Correlation - X variable", options=EstimatedParameters.columns, index=EstimatedParameters.columns.get_loc("Thickness[mm]"))
+corr_yEP = st.selectbox("Correlation - Y variable", options=EstimatedParameters.columns, index=EstimatedParameters.columns.get_loc("SpeedTH[mm/min]"))
+corr_colEP = st.radio("Correlation - color variable", options=["Gas","Thickness[mm]", 'LaserPower[W]', 'Material'], index=1)
+corr_filtEP= st.selectbox("Filter variable", options=EstimatedParameters.columns, index=EstimatedParameters.columns.get_loc("LaserPower[W]"))
+min_filtEP = st.number_input("Minimum value", value=8000, min_value=0)
+max_filtEP = st.number_input("Maximum value", value=10000, min_value=0)
+tmp_dfEP = EstimatedParameters[(EstimatedParameters[corr_filtEP] > min_filtEP)&(EstimatedParameters[corr_filtEP] <= max_filtEP)]
+fig = px.scatter(tmp_dfEP, x=corr_xEP, y=corr_yEP, template="plotly_white", render_mode='webgl',
+                 color=corr_colEP, hover_data=['LaserPower[W]','Gas'], color_continuous_scale=px.colors.sequential.OrRd,
+                 )
+fig.update_traces(mode="markers", marker={"line": {"width": 0.4, "color": "slategrey"}})
+st.subheader("ESTIMATED PARAMETERS")
+st.write(fig)
+st.write(tmp_dfEP)
+
+
+
+'Devo aggiungere la selezione dei filtri come fatto nel punto precedente'
+
+
+
+
+
+
+
 
 
 
