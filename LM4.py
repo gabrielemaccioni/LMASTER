@@ -152,7 +152,7 @@ st.write(get_inform(DF))
 
 st.title("Correlation and scatterplot multiselection")
 st.header('Selection of axis')
-st.subheader("Two possible selection of machine parameters: RANGE (in the range parameters) or SINGLE (in the cathegorical parameters)")
+
 st.write(Data)
 corr_x3 = st.selectbox("**SELECT X AXIS**", options=Data.columns, index=Data.columns.get_loc("Thickness[mm]"))
 corr_y3 = st.selectbox("**SELECT Y AXIS**", options=Data.columns, index=Data.columns.get_loc("Speed[mm/min]"))
@@ -161,6 +161,7 @@ corr_y3 = st.selectbox("**SELECT Y AXIS**", options=Data.columns, index=Data.col
 
 
 #st.title("Ranged parameters")
+st.header("Two possible selection of machine parameters: RANGE (in the range parameters) or SINGLE (in the cathegorical parameters)")
 st.header('Selection of range parameters')
 st.info('To switch off this section put min and max limits at 0!!', icon="ℹ️")
 Thickness= st.selectbox("**SELECT RANGE OF THICKNESS**",options=Data.columns, index=Data.columns.get_loc("Thickness[mm]"))
