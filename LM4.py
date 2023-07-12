@@ -152,6 +152,8 @@ st.write(get_inform(DF))
 
 st.title("Correlation and scatterplot multiselection")
 st.header('Selection of axis')
+st.subheader("Two possible selection of machine parameters: RANGE (in the range parameters) or SINGLE (in the cathegorical parameters)")
+st.write(Data)
 corr_x3 = st.selectbox("**SELECT X AXIS**", options=Data.columns, index=Data.columns.get_loc("Thickness[mm]"))
 corr_y3 = st.selectbox("**SELECT Y AXIS**", options=Data.columns, index=Data.columns.get_loc("Speed[mm/min]"))
 
